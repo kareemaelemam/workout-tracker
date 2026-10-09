@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Basic page setup -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home - Workout Tracker</title>
+
+  <!-- External stylesheet: style.css holds the layout AND the
+       CSS-variable theme system (light + dark) for this page -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Page header: app name on the left, theme toggle on the right -->
+  <header>
+    <h1>Reps<span>&amp;</span>Habits</h1>
+    <!-- Theme toggle button: its click handler lives in theme.js -->
+    <button id="theme-toggle" type="button">🌙 Dark mode</button>
+  </header>
+
+  <!-- Flex container: arranges the nav sidebar and content side by side -->
+  <div class="page-layout">
+
+    <!-- Navigation sidebar (fixed-width flex item) -->
+    <nav class="side-nav">
+      <h2>Public</h2>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="login.html">Login / Sign Up</a></li>
+      </ul>
+
+      <h2 style="margin-top: 20px;">Requires Login</h2>
+      <ul>
+        <li class="locked">Log a Workout</li>
+        <li class="locked">Workout History</li>
+        <li class="locked">Habit Tracker</li>
+        <li class="locked">Dashboard</li>
+      </ul>
+    </nav>
+
+    <!-- Main content (flexible-width flex item, fills remaining space) -->
+    <main class="content">
+      <span class="badge">● BUILT FOR ME</span>
+
+      <h2>Reps, Habits, and Real Progress</h2>
+      <p class="tagline">A workout &amp; habit tracker I'm actually going to use.</p>
+
+      <p>
+        A database-backed site with a real login system and real CRUD — not a
+        static page. Every workout I log, every habit I check off, is written
+        to a database and tied to my account.
+      </p>
+
+      <p>
+        This is the home page: the one public page besides login. Everything
+        else below requires signing in first, which is the whole point —
+        my data stays mine.
+      </p>
+
+      <!-- Feature preview cards, same visual language as the project
+           proposal deck: login, create, update, delete, access control -->
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h3>Login &amp; Sessions</h3>
+          <p>Sign in once, stay signed in until logout or the browser closes.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Create</h3>
+          <p>Log a workout or check off a habit — straight to the database.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Update &amp; Delete</h3>
+          <p>Fix a past entry or remove a bad one, any time.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Real Access Control</h3>
+          <p>History, habits, and the dashboard are invisible without login.</p>
+        </div>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Vanilla JS theme toggle: applies the saved theme on load,
+       and switches themes when the button above is clicked -->
+  <script src="theme.js"></script>
+</body>
+</html>
