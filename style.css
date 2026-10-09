@@ -1,0 +1,271 @@
+/* =========================================================
+   style.css
+   External stylesheet for the Workout Tracker home page.
+   Section 1: CSS variables (the color "theme system").
+   Section 2: the flexbox nav + content layout.
+   A single class on <body> — .dark_mode — swaps every
+   color on the page by overriding the variables below.
+   ========================================================= */
+
+/* Reset default spacing so the layout math is predictable */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ---------------------------------------------------------
+   THEME VARIABLES (light / default theme)
+   Every color used anywhere on the page is defined here as
+   a custom property instead of being hardcoded. Elements
+   reference these with var(--name) so changing a value in
+   ONE place updates the whole page.
+   --------------------------------------------------------- */
+:root {
+  --color-bg: #f5f3ed;
+  --color-header-bg: #141414;
+  --color-header-text: #ffffff;
+  --color-card-bg: #ffffff;
+  --color-card-border: #e2ded3;
+  --color-text: #222222;
+  --color-text-muted: #6b6b6b;
+  --color-link: #c9481f;
+  --color-accent: #ff4c29;
+  --color-accent-text: #141414;
+  --color-pill-bg: #1f1f1f;
+}
+
+/* ---------------------------------------------------------
+   DARK THEME OVERRIDE
+   Toggling this one class on <body> (done in theme.js)
+   redefines the same variable names with dark-mode colors.
+   Nothing else in this file has to change, because every
+   element below reads its color from a variable, not a
+   fixed value.
+   --------------------------------------------------------- */
+body.dark_mode {
+  --color-bg: #0f0f10;
+  --color-header-bg: #000000;
+  --color-header-text: #f5f3ed;
+  --color-card-bg: #1a1a1b;
+  --color-card-border: #2c2c2e;
+  --color-text: #f0ede6;
+  --color-text-muted: #9a9a9a;
+  --color-link: #ff8b60;
+  --color-accent: #ff4c29;
+  --color-accent-text: #ffffff;
+  --color-pill-bg: #262626;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  /* Smooth color change instead of an instant jarring flip */
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* -------------------------------------------------------
+   HEADER
+   Full-width bar with the app name and the theme toggle.
+   ------------------------------------------------------- */
+header {
+  background-color: var(--color-header-bg);
+  color: var(--color-header-text);
+  padding: 20px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background-color 0.2s ease;
+}
+
+header h1 {
+  font-size: 22px;
+}
+
+header h1 span {
+  color: var(--color-accent);
+}
+
+/* -------------------------------------------------------
+   THEME TOGGLE BUTTON
+   Styled from the same variables so it stays legible in
+   both themes.
+   ------------------------------------------------------- */
+#theme-toggle {
+  background-color: var(--color-pill-bg);
+  color: var(--color-header-text);
+  border: 1px solid var(--color-accent);
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+#theme-toggle:hover {
+  opacity: 0.85;
+}
+
+/* -------------------------------------------------------
+   PAGE LAYOUT (Flexbox)
+   .page-layout is the flex container. It holds two flex
+   items side by side: the navigation sidebar and the main
+   content section.
+   ------------------------------------------------------- */
+.page-layout {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 24px;
+  max-width: 1000px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
+
+/* -------------------------------------------------------
+   NAVIGATION SIDEBAR
+   flex: 0 0 200px means "don't grow, don't shrink, start
+   at 200px wide" — a fixed-width column for links.
+   ------------------------------------------------------- */
+nav.side-nav {
+  flex: 0 0 200px;
+  background-color: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
+  border-radius: 8px;
+  padding: 16px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+nav.side-nav h2 {
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  color: var(--color-text-muted);
+}
+
+/* Stack nav links vertically inside the sidebar using flex */
+nav.side-nav ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+nav.side-nav a {
+  text-decoration: none;
+  color: var(--color-link);
+  font-weight: bold;
+}
+
+nav.side-nav a:hover {
+  text-decoration: underline;
+}
+
+/* A locked nav item (pages that require login) looks different
+   from an open one, to preview the real app's access control */
+nav.side-nav .locked {
+  color: var(--color-text-muted);
+  font-weight: normal;
+  cursor: default;
+}
+
+/* -------------------------------------------------------
+   MAIN CONTENT AREA
+   flex: 1 lets this section grow to fill the remaining
+   space next to the fixed-width sidebar.
+   ------------------------------------------------------- */
+main.content {
+  flex: 1;
+  background-color: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
+  border-radius: 8px;
+  padding: 24px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+main.content h2 {
+  font-size: 26px;
+  margin-bottom: 8px;
+}
+
+main.content .tagline {
+  color: var(--color-text-muted);
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+main.content p {
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
+/* Small pill badge, same visual language as the proposal deck */
+.badge {
+  display: inline-block;
+  background-color: var(--color-pill-bg);
+  color: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* -------------------------------------------------------
+   FEATURE CARDS
+   A small flex row of cards previewing the app's core
+   features (login, create, update, delete, access control).
+   ------------------------------------------------------- */
+.feature-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 8px;
+}
+
+.feature-card {
+  flex: 1 1 200px;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-card-border);
+  border-radius: 8px;
+  padding: 14px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.feature-card h3 {
+  font-size: 15px;
+  margin-bottom: 6px;
+  color: var(--color-accent);
+}
+
+.feature-card p {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin-bottom: 0;
+}
+
+/* -------------------------------------------------------
+   RESPONSIVE BEHAVIOR
+   On narrow screens, switch the flex container to a
+   column so the nav sits above the content instead of
+   beside it.
+   ------------------------------------------------------- */
+@media (max-width: 600px) {
+  .page-layout {
+    flex-direction: column;
+  }
+
+  nav.side-nav {
+    flex: 1;
+    width: 100%;
+  }
+
+  header {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+}
