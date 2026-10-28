@@ -1,52 +1,28 @@
+<!--
+  login.html
+  Login form for the Reps&Habits workout tracker.
+  Submits to the "/login" endpoint required by the assignment.
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Basic page setup -->
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - Workout Tracker</title>
-
-  <!-- Same external stylesheet, so the theme system (and the
-       saved dark/light choice) carries over to this page too -->
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <title>Login - Reps&Habits</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="auth-box">
+    <h2>Login</h2>
+    <form action="/login" method="POST">
+      <label for="username">Username</label>
+      <input type="text" name="username" id="username" size="30" required /><br>
 
-  <header>
-    <h1>Reps<span>&amp;</span>Habits</h1>
-    <button id="theme-toggle" type="button">🌙 Dark mode</button>
-  </header>
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" size="30" required /><br>
 
-  <div class="page-layout">
-
-    <nav class="side-nav">
-      <h2>Public</h2>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="login.html">Login / Sign Up</a></li>
-      </ul>
-
-      <h2 style="margin-top: 20px;">Requires Login</h2>
-      <ul>
-        <li class="locked">Log a Workout</li>
-        <li class="locked">Workout History</li>
-        <li class="locked">Habit Tracker</li>
-        <li class="locked">Dashboard</li>
-      </ul>
-    </nav>
-
-    <main class="content">
-      <h2>Log In</h2>
-      <p class="tagline">Placeholder page — the real login form (and the database behind it) comes with the full build.</p>
-
-      <p>
-        This page is here so the navigation and the theme toggle both work
-        end to end while the rest of the site is still being built.
-      </p>
-    </main>
-
+      <input type="submit" value="Log In" />
+    </form>
+    <p><a href="register.html">Need an account? Register here</a></p>
   </div>
-
-  <script src="theme.js"></script>
 </body>
 </html>
