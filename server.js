@@ -6,16 +6,45 @@
    POST endpoints against the existing "users" table in the
    workout_tracker MySQL database (same DB used for the
    "Create your User Table" assignment).
+
+   Also adds session-based auth (for the "Using session
+   variables for user data" assignment):
+     - On successful /login, the username is saved into
+       req.session.user.
+     - GET /profile reads req.session.user and shows the
+       logged-in username, or a "not logged in" message with
+       a link to login.html if there's no session.
+     - GET /logout destroys the session so the user is
+       logged out, then links back to login.html.
    ========================================================= */
 
 require("dotenv").config();
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const mysql = require("mysql2");
+const session = require("express-session");
+const cookieParser = require("cookie-parser");
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
+app.use(cookieParser());
+
+// Session middleware. The secret is read from .env (SESSION_SECRET)
+// so it isn't hardcoded in the source. Cookies last 1 hour and are
+// httpOnly so client-side JS can't read them (protects against XSS).
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 60000 * 60, // 1 hour
+      httpOnly: true,
+      secure: false, // set to true only when served over HTTPS
+    },
+  })
+);
 
 const SALT_ROUNDS = 10;
 
@@ -99,9 +128,50 @@ app.post("/login", function (req, res) {
           '<p>The login credentials were incorrect. <a href="login.html">Login</a> here</p>'
         );
       } else {
-        res.send(`<p>You have logged in successfully ${username}</p>`);
+        // Save the username in the session so other pages
+        // (like /profile) can tell who's logged in.
+        req.session.user = { username: username };
+        res.send(
+          `<p>You have logged in successfully ${username}.<br>` +
+            'Visit your <a href="/profile">Profile</a></p>'
+        );
       }
     });
+  });
+});
+
+// ---------------------------------------------------------
+// GET /profile
+// Shows the logged-in user's username, read from the
+// session. If there's no session (not logged in), sends
+// a message with a link back to login.html instead.
+// ---------------------------------------------------------
+app.get("/profile", function (req, res) {
+  if (!req.session.user) {
+    res.send(
+      '<p>You are not logged in. <a href="login.html">Login here</a></p>'
+    );
+  } else {
+    res.send(
+      `<p>Hi ${req.session.user.username}, you are logged in.<br>` +
+        '<a href="/logout">Logout</a></p>'
+    );
+  }
+});
+
+// ---------------------------------------------------------
+// GET /logout
+// Destroys the current session, logging the user out.
+// ---------------------------------------------------------
+app.get("/logout", function (req, res) {
+  req.session.destroy(function (err) {
+    if (err) {
+      res.send("Error logging out");
+    } else {
+      res.send(
+        'Logged out successfully! <a href="login.html">Login here</a>'
+      );
+    }
   });
 });
 
